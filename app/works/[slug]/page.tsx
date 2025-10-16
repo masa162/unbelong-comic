@@ -6,7 +6,7 @@ import type { Work, Episode } from '@/types';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export const revalidate = 60;
+export const runtime = 'edge';
 
 async function getWork(slug: string): Promise<Work | null> {
   try {
@@ -34,8 +34,9 @@ async function getEpisodes(workId: string): Promise<Episode[]> {
   }
 }
 
-export default async function WorkPage({ params }: { params: { slug: string } }) {
-  const work = await getWork(params.slug);
+export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const work = await getWork(slug);
 
   if (!work) {
     notFound();

@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EpisodeViewer from '@/components/EpisodeViewer';
 
-export const revalidate = 60;
+export const runtime = 'edge';
 
 async function getWork(slug: string): Promise<Work | null> {
   try {
@@ -49,10 +49,11 @@ async function getAllEpisodes(workId: string): Promise<Episode[]> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string; episodeSlug: string };
+  params: Promise<{ slug: string; episodeSlug: string }>;
 }): Promise<Metadata> {
-  const work = await getWork(params.slug);
-  const episode = await getEpisode(params.slug, params.episodeSlug);
+  const { slug, episodeSlug } = await params;
+  const work = await getWork(slug);
+  const episode = await getEpisode(slug, episodeSlug);
 
   if (!work || !episode) {
     return {
@@ -87,15 +88,16 @@ export async function generateMetadata({
 export default async function EpisodePage({
   params,
 }: {
-  params: { slug: string; episodeSlug: string };
+  params: Promise<{ slug: string; episodeSlug: string }>;
 }) {
-  const work = await getWork(params.slug);
+  const { slug, episodeSlug } = await params;
+  const work = await getWork(slug);
 
   if (!work) {
     notFound();
   }
 
-  const episode = await getEpisode(params.slug, params.episodeSlug);
+  const episode = await getEpisode(slug, episodeSlug);
 
   if (!episode) {
     notFound();
