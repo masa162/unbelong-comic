@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm install)",
+      "Bash(npx @cloudflare/next-on-pages@latest)",
+      "Bash(npx next build)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
