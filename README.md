@@ -85,3 +85,4 @@ unbelong-comic/
 ## ライセンス
 
 UNLICENSED - Private project
+# 環境変数設定後の再ビルド
