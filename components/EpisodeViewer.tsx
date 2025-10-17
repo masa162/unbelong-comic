@@ -152,16 +152,19 @@ export default function EpisodeViewer({ content, episodeTitle }: EpisodeViewerPr
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
-            img: ({ ...props }) => (
+            img: ({ alt, src, title }) => (
               <img
-                {...props}
+                src={src}
+                alt={alt || ''}
+                title={title}
                 className="w-full h-auto rounded-lg shadow-md"
                 loading="lazy"
-                alt={props.alt || ''}
               />
             ),
-            a: ({ ...props }) => (
-              <a {...props} target="_blank" rel="noopener noreferrer" />
+            a: ({ href, children }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
             ),
           }}
         >
